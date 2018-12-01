@@ -1,4 +1,4 @@
-function Chopper(ctx, x, y){
+function Chopper(ctx, x, y, sprite, direction){
   this.ctx = ctx;
 
   this.x = x;
@@ -7,9 +7,9 @@ function Chopper(ctx, x, y){
   this.h = 100;
 
   this.img = new Image();
-  this.img.src = "img/helicoptero-sprite.png";
+  this.img.src = sprite || "img/helicoptero-sprite.png";
 
-  this.vx = CHOPPER_V;
+  this.vx = direction || CHOPPER_V;
 
   this.img.frames = 3;
   this.img.frameIndex = 0;
@@ -50,5 +50,5 @@ Chopper.prototype.dead = function(){
   this.img.src = "img/chopperDead.png";
   this.h = 100;
   this.w = 100;
-   
+
 }

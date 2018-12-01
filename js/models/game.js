@@ -12,9 +12,9 @@ function Game(canvasId) {
   this.cannon = new Cannon(this.ctx);
 
   this.drawChopperCount = 0;
+  this.drawExtraChopperCount = 0;
   this.choppers = [];
-  this.choppersExtra = [];
-
+  
   this.drawTrooper = 0;
   this.troopers = [];
 
@@ -30,6 +30,7 @@ Game.prototype.start = function() {
   if (!this.isRunning()) {
     this.drawIntervalId = setInterval(function () {
       this.drawChopperCount++;
+      this.drawExtraChopperCount++;
       this.drawTrooper++;
       this.clear();
 
@@ -38,14 +39,22 @@ Game.prototype.start = function() {
         this.drawTrooper = 0;
       }
       //creo una variable nueva para que salgan aleatorios los helicopteros
-      var newChopper = CHOPPER_INTERVAL + Math.floor(Math.random() * (89)) + 1;
+      var newChopper = CHOPPER_INTERVAL + Math.floor(Math.random() * (50)) + 1;
       if (this.drawChopperCount % newChopper === 0) {
         this.addChopper();
         this.drawChopperCount = 0;
       }
+
+      if (this.score > 200){
+        var newExtraChopper = CHOPPER_INTERVAL + Math.floor(Math.random() * (50)) + 1;
+        if (this.drawExtraChopperCount % newExtraChopper === 0) {
+          this.addExtraChopper();
+          this.drawExtraChopperCount = 0;
+        }
+      }
       if (this.isGameOver()) {
         this.stop();
-        alert("GAME OVER");
+        
       }
 
       this.troopers.forEach(function(trooper){
@@ -104,24 +113,20 @@ Game.prototype.addTrooper = function(){
   }
 }
 
+
 Game.prototype.addChopper = function(){
-  var chopper = new Chopper(this.ctx, this.canvas.width, 100);
+  var chopper = new Chopper(this.ctx, this.canvas.width, 80);
   this.choppers.push(chopper);
 }
 
 Game.prototype.addExtraChopper = function(){
-  var chopperExtra = new ChopperExtra(this.ctx, 0, 100);
-  this.choppersExtra.push(chopperExtra);
+  var chopper = new Chopper(this.ctx, 0, 170, "img/helicoptero-sprite-extra.png", 1);
+  this.choppers.push(chopper);
 }
 
 Game.prototype.clearChoppers = function(){
   for (var i = 0; i < this.choppers.length; i++){
     if (this.choppers[i].x + this.choppers[i].w < 0){
-      this.choppers.splice(i,1);
-    }
-  }
-  for (var i = 0; i < this.choppersExtra.length; i++){
-    if (this.choppersExtra[i].x > this.canvas.width){
       this.choppers.splice(i,1);
     }
   }
@@ -161,11 +166,12 @@ Game.prototype.destroyChopper = function(){
       }
     }
   }
+  
 }
 
 Game.prototype.isGameOver = function() {
   if (this.cannon.isDead()){
-    alert("DEAD");
+    alert("DEAD. Your score is" + this.score);
   };
   
 }

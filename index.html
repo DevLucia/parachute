@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+  <img class="logo" src="./img/logo.png">
+  <div class="score-div">
+    <span><img src="./img/score.png"></span>
+    <span id="score"> 23456 </span>
+    <span> pts.</span>
+  </div>
+
+  <div class="life-bar">
+    <span>LIFE:</span>
+    <span id="health"> 100 </span><span>%</span>
+  </div>
+  
+  <canvas id="main-canvas"></canvas>
+
+  
+
+  <script src="js/models/constants.js"></script>
+  <script src="js/models/background.js"></script>
+  <script src="js/models/bullet.js"></script>
+  <script src="js/models/trooper.js"></script>
+  <script src="js/models/chopper.js"></script>
+  <script src="js/models/cannon.js"></script>
+  <script src="js/models/game.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>

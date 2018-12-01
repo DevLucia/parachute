@@ -1,0 +1,71 @@
+@font-face{
+  font-family: "pixeled";
+  src: url('./fonts/pixeled.eot');
+
+   src: url('./fonts/pixeled.eot?#iefix') format('embedded-opentype'),
+
+        url('./fonts/pixeled.woff') format('woff'),
+
+        url('./fonts/pixeled.ttf') format('truetype'),
+
+        url('./fonts/pixeled.svg#adlerRegular') format('svg');
+ 
+  font-style: normal;
+  font-weight: normal;
+  
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
+.logo {
+  position: absolute;
+  height: 100px;
+  width: 300px;
+  padding-left: 20px;
+
+}
+
+.score-div {
+  position: absolute;
+  padding-left: 1050px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.score-div img {
+  height:40px;
+  width: 120px;  
+}
+
+#score {
+  color: white;
+  font-size: 15px; 
+  font-family: 'pixeled';
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.score-div span {
+  color: white;
+  font-size: 15px; 
+  font-family: 'pixeled';
+}
+
+.life-bar {
+  position: absolute;
+  padding-top: 580px;
+  padding-left: 800px;
+  color: white;
+  font-size: 15px; 
+  font-family: 'pixeled';
+}

@@ -1,0 +1,20 @@
+var DRAW_INTERVAL_MS = 1000/60;
+
+var KEY_RIGHT = 39;
+var KEY_LEFT = 37;
+var KEY_SPACE = 32;
+var FRICCION = 0.9;
+
+var TUBE_ORIGIN_X = 650;
+var TUBE_ORIGIN_Y = 600;
+
+var CHOPPER_V = -1;
+var CHOPPER_INTERVAL = 250;
+
+var GRAV = 1;
+var TROOPER_INTERVAL = 400;
+
+var SPEED = 10;
+
+
+

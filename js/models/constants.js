@@ -8,7 +8,7 @@ var FRICCION = 0.9;
 var TUBE_ORIGIN_X = 650;
 var TUBE_ORIGIN_Y = 600;
 
-var CHOPPER_V = -1;
+var CHOPPER_V = -2;
 var CHOPPER_INTERVAL = 250;
 
 var GRAV = 1;
@@ -16,5 +16,6 @@ var TROOPER_INTERVAL = 400;
 
 var SPEED = 10;
 
+var KEY_SPACE = 32;
 
 

@@ -10,20 +10,32 @@
 </head>
 <body>
 
-  <img class="logo" src="./img/logo.png">
-  <div class="score-div">
-    <span><img src="./img/score.png"></span>
-    <span id="score"> 23456 </span>
-    <span> pts.</span>
+  <div class="intro start">
+    <img class="logo-init" src="img/big-logo.png">
+    <h2>High Score: </h2>
+    <h3><span id="name"></span> <span id="high-score"> </span><span> pts.</span></h3>
+    <button class="start-button">Start</button>
   </div>
 
-  <div class="life-bar">
-    <span>LIFE:</span>
-    <span id="health"> 100 </span><span>%</span>
-  </div>
-  
-  <canvas id="main-canvas"></canvas>
+  <div class="game disable">
+    <img class="logo" src="./img/logo.png">
+    <div class="score-div">
+      <span><img src="./img/score.png"></span>
+      <span id="score"> 0 </span>
+      <span> pts.</span>
+    </div>
 
+    <div class="life-bar">
+      <span>LIFE:</span>
+      <span id="health"> 100 </span><span>%</span>
+    </div>
+
+    <canvas id="main-canvas"></canvas>
+  </div>  
+
+  <div class="game-over disable">
+    
+  </div>
   
 
   <script src="js/models/constants.js"></script>

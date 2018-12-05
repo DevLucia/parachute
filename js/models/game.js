@@ -6,7 +6,8 @@ function Game(canvasId) {
   this.ctx = this.canvas.getContext('2d');
 
   document.addEventListener('click', this.onKeyEvent.bind(this));
-  
+  document.addEventListener('keydown', this.onKeyEvent.bind(this));
+     
   this.bg = new Background(this.ctx);
 
   this.cannon = new Cannon(this.ctx);
@@ -19,20 +20,41 @@ function Game(canvasId) {
   this.troopers = [];
 
   this.bullets = [];
+  this.charger = [];
 
   this.score = 0;
-
+  this.highScore = this.getHighScore();
+  
   this.countExplosion = 0;
+  
+}
+
+Game.prototype.getHighScore = function (){
+  var score = localStorage.getItem('score') || '0';
+  return JSON.parse(score);
+  
+}
+
+Game.prototype.getName = function (){
+  var name = localStorage.getItem('name') || '';
+  return JSON.parse(name);
+}
+
+Game.prototype.setHighScore = function(){
+  
+  document.getElementById('high-score').innerText = this.highScore;
+  document.getElementById('name').innerText = this.getName();
   
 }
 
 Game.prototype.start = function() {
   if (!this.isRunning()) {
+    this.refillCharger();
     this.drawIntervalId = setInterval(function () {
       this.drawChopperCount++;
       this.drawExtraChopperCount++;
       this.drawTrooper++;
-      this.clear();
+      this.clear();     
 
       if (this.drawTrooper % TROOPER_INTERVAL){
         this.addTrooper();
@@ -97,7 +119,7 @@ Game.prototype.start = function() {
   }
 }
 
-Game.prototype.updateScore = function(score){
+Game.prototype.updateScore = function(){
   document.getElementById('score').innerText = this.score;
 }
 
@@ -113,20 +135,19 @@ Game.prototype.addTrooper = function(){
   }
 }
 
-
 Game.prototype.addChopper = function(){
   var chopper = new Chopper(this.ctx, this.canvas.width, 80);
   this.choppers.push(chopper);
 }
 
 Game.prototype.addExtraChopper = function(){
-  var chopper = new Chopper(this.ctx, 0, 170, "img/helicoptero-sprite-extra.png", 1);
+  var chopper = new Chopper(this.ctx, -250, 170, "img/helicoptero-sprite-extra.png", 2);
   this.choppers.push(chopper);
 }
 
 Game.prototype.clearChoppers = function(){
   for (var i = 0; i < this.choppers.length; i++){
-    if (this.choppers[i].x + this.choppers[i].w < 0){
+    if ((this.choppers[i].x + this.choppers[i].w < 0)||(this.choppers[i].x > this.canvas.width)){
       this.choppers.splice(i,1);
     }
   }
@@ -145,7 +166,6 @@ Game.prototype.killTrooper = function(){
     for (var j = 0; j < this.troopers.length; j++){
       if (((this.bullets[i].x >= this.troopers[j].x)&&(this.bullets[i].x <= this.troopers[j].x + 44))
       &&((this.bullets[i].y >= this.troopers[j].y)&&(this.bullets[i].y <= this.troopers[j].y +61))){
-        console.log(this.bullets[i],this.troopers[j]);
         this.troopers[j].isDead = true;
         this.bullets[i].isSuccess = true;
         this.score += 5;
@@ -169,29 +189,67 @@ Game.prototype.destroyChopper = function(){
   
 }
 
-Game.prototype.isGameOver = function() {
-  if (this.cannon.isDead()){
-    alert("DEAD. Your score is" + this.score);
-  };
+Game.prototype.addHighScore = function(name){
+  console.log(name);
+  localStorage.setItem('score', JSON.stringify(this.score));
+  localStorage.setItem('name', JSON.stringify(name));
   
 }
 
+
+Game.prototype.isGameOver = function() {
+  return this.cannon.isDead();
+}
+
 Game.prototype.isRunning = function() {
-  return this.drawIntervalId !== undefined;
+  return this.drawIntervalId;
 }
 
 Game.prototype.stop = function () {
+  var name = prompt("DEAD. Your score is the highest, insert your name:");
+  if (this.score > this.highScore){
+    this.addHighScore(name);    
+  }
   clearInterval(this.drawIntervalId);
   this.drawIntervalId = undefined;
 }
 
+Game.prototype.addBullet = function (ctx, dx, dy){
+  var bullet = new Bullet (ctx, 650, 550, dx, dy);
+  this.bullets.push(bullet);
+}
+
 Game.prototype.onKeyEvent = function(event) {
+  console.log('EVENT => ', event);
   var shotX = event.clientX;
   var shotY = event.clientY;
-  if (shotY < 450){
-    var bullet = new Bullet (this.ctx, 650, 550, shotX, shotY);
-    this.bullets.push(bullet);
+  if ((shotY < 450)&&(this.charger.length > 0)){
+    this.addBullet(this.ctx,shotX,shotY);
+    console.log(this.charger);
+    this.charger.pop();
   }  
+  if(event.keyCode === KEY_SPACE){
+    this.refillCharger();
+  }
+}
+
+Game.prototype.refillCharger = function(){
+  var x = 530;
+  for(var i = 0; i < 4; i++){
+    var bullet = new Bullet(this.ctx, x, 600);
+    this.charger.push(bullet);
+    x -= 30;
+  }
+}
+
+Game.prototype.drawBulletCharger = function(bullets){
+    for(var i = 0; i < bullets.length; i++){
+      this.ctx.beginPath();
+      this.ctx.arc( bullets[i].x, bullets[i].y, 5, 0,( Math.PI / 180 ) * 360); 
+      this.ctx.fillStyle = "#64FE2E";
+      this.ctx.fill();
+      this.ctx.closePath();
+  } 
 }
 
 Game.prototype.clear = function () {
@@ -204,6 +262,8 @@ Game.prototype.draw = function () {
   this.bullets.forEach(function(bullet){
     bullet.draw();
   });
+
+  this.drawBulletCharger(this.charger);
 
   this.cannon.draw();
 

@@ -2,8 +2,8 @@ function Bullet(ctx, x, y,dx, dy){
   this.ctx = ctx;
   this.x = x;
   this.y = y;
-  this.dx = dx;
-  this.dy = dy;
+  this.dx = dx || 0;
+  this.dy = dy || 0;
 
   this.vx = (this.dx - this.x)/ Math.sqrt( Math.pow( this.dx + this.x, 2) + Math.pow(this.dy - this.y, 2));
   this.vy = (this.dy - this.y)/ Math.sqrt( Math.pow( this.dx + this.x, 2) + Math.pow( this.dy - this.y, 2));

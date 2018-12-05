@@ -14,11 +14,8 @@ function Cannon(ctx){
   this.originY = 700;
 
 
-
   this.health = 100;
 }
-
-//Cannon.prototype.health
 
 
 Cannon.prototype.draw = function(){

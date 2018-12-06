@@ -97,7 +97,17 @@ html, body {
   color: black;
 }
 
+.game-over{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+}
+
+}
+
 .disable{
   display: none;
-}
+}  
+
 

@@ -26,7 +26,7 @@ function Game(canvasId) {
   this.highScore = this.getHighScore();
   
   this.countExplosion = 0;
-  
+
 }
 
 Game.prototype.getHighScore = function (){
@@ -41,7 +41,7 @@ Game.prototype.getName = function (){
 }
 
 Game.prototype.setHighScore = function(){
-  
+
   document.getElementById('high-score').innerText = this.highScore;
   document.getElementById('name').innerText = this.getName();
   
@@ -60,7 +60,7 @@ Game.prototype.start = function() {
         this.addTrooper();
         this.drawTrooper = 0;
       }
-      //creo una variable nueva para que salgan aleatorios los helicopteros
+      
       var newChopper = CHOPPER_INTERVAL + Math.floor(Math.random() * (50)) + 1;
       if (this.drawChopperCount % newChopper === 0) {
         this.addChopper();
@@ -135,6 +135,11 @@ Game.prototype.addTrooper = function(){
   }
 }
 
+Game.prototype.addBullet = function (ctx, dx, dy){
+  var bullet = new Bullet (ctx, 650, 550, dx, dy);
+  this.bullets.push(bullet);
+}
+
 Game.prototype.addChopper = function(){
   var chopper = new Chopper(this.ctx, this.canvas.width, 80);
   this.choppers.push(chopper);
@@ -190,15 +195,13 @@ Game.prototype.destroyChopper = function(){
 }
 
 Game.prototype.addHighScore = function(name){
-  console.log(name);
   localStorage.setItem('score', JSON.stringify(this.score));
   localStorage.setItem('name', JSON.stringify(name));
-  
 }
 
 
 Game.prototype.isGameOver = function() {
-  return this.cannon.isDead();
+ return this.cannon.isDead();
 }
 
 Game.prototype.isRunning = function() {
@@ -206,17 +209,23 @@ Game.prototype.isRunning = function() {
 }
 
 Game.prototype.stop = function () {
-  var name = prompt("DEAD. Your score is the highest, insert your name:");
-  if (this.score > this.highScore){
-    this.addHighScore(name);    
+   if (this.score > this.highScore){
+    document.querySelector('.game').classList.add('disable');
+    document.querySelector('.high-score-screen').classList.remove('disable');
+    //var submitButton = document.getElementById('submit');
+    var name = document.getElementById('name-high-score').value;
+    console.log(name);
+    this.addHighScore(name);  
+    // submitButton.addEventListener('click', function(){
+        
+    // }.bind(this));
+    
+  } else {
+    document.querySelector('.game').classList.add('disable');
+    document.querySelector('.game-over').classList.remove('disable');
   }
   clearInterval(this.drawIntervalId);
   this.drawIntervalId = undefined;
-}
-
-Game.prototype.addBullet = function (ctx, dx, dy){
-  var bullet = new Bullet (ctx, 650, 550, dx, dy);
-  this.bullets.push(bullet);
 }
 
 Game.prototype.onKeyEvent = function(event) {
@@ -225,7 +234,6 @@ Game.prototype.onKeyEvent = function(event) {
   var shotY = event.clientY;
   if ((shotY < 450)&&(this.charger.length > 0)){
     this.addBullet(this.ctx,shotX,shotY);
-    console.log(this.charger);
     this.charger.pop();
   }  
   if(event.keyCode === KEY_SPACE){
@@ -244,11 +252,7 @@ Game.prototype.refillCharger = function(){
 
 Game.prototype.drawBulletCharger = function(bullets){
     for(var i = 0; i < bullets.length; i++){
-      this.ctx.beginPath();
-      this.ctx.arc( bullets[i].x, bullets[i].y, 5, 0,( Math.PI / 180 ) * 360); 
-      this.ctx.fillStyle = "#64FE2E";
-      this.ctx.fill();
-      this.ctx.closePath();
+      this.ctx.drawImage(bullets[i].img, bullets[i].x, bullets[i].y, 15, 15);
   } 
 }
 

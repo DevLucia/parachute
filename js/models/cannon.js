@@ -10,11 +10,7 @@ function Cannon(ctx){
   this.img = new Image();
   this.img.src = "./img/Spaceship-Transparent-PNG.png";
 
-  this.originX = 650;
-  this.originY = 700;
-
-
-  this.health = 100;
+  this.health = 10;
 }
 
 

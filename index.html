@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <div class="intro start">
+  <div class="intro background">
     <img class="logo-init" src="img/big-logo.png">
     <h2>High Score: </h2>
     <h3><span id="name"></span> <span id="high-score"> </span><span> pts.</span></h3>
@@ -33,16 +33,22 @@
     <canvas id="main-canvas"></canvas>
   </div>  
 
-  <div class="game-over disable"></div>
+  <div class="high-score-screen background disable">
     <h1>GAME OVER</h1>
     <span>You are dead!!!</span>
     <div class="data">
       <h3>You have smashed the Parachute's world record!!!!</h3>
-      <span>Introduce your name here:</span>
-      <input type="text">
+      <span> Enter your name here:</span>
+      <input type="text" id="name-high-score">
+      <button name="submit" id="sumbit"> Submit </button>
     </div>
   </div>
   
+  <div class="game-over background disable">
+    <h1>GAME OVER</h1>
+    <span>You are dead!!!</span>
+    <img src="./img/helicoptero-winner.png">
+  </div>
 
   <script src="js/models/constants.js"></script>
   <script src="js/models/background.js"></script>
